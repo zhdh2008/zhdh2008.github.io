@@ -824,12 +824,14 @@
             </div>
             
             <div class="copyright">
-                <p>&copy; 2023 Derwin的技术博客 | 保留所有权利</p>
+                <p>&copy; <span id="currentYear"></span> Derwin的技术博客 | 保留所有权利</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // 获取当前年份并显示在版权信息中
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
         // 移动端菜单切换
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.querySelector('nav ul').classList.toggle('show');
