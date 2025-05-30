@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>星辰的个人博客 | 前端开发与设计思考</title>
+    <title>Derwin的技术博客 | 移动端开发与智能座舱应用</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -465,6 +465,14 @@
         
         .footer-column ul li {
             margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-column ul li i {
+            width: 24px;
+            margin-right: 10px;
+            color: var(--accent-color);
         }
         
         .footer-column ul li a {
@@ -569,8 +577,8 @@
     <header>
         <div class="container header-container">
             <div class="logo">
-                <i class="fas fa-blog"></i>
-                星辰博客
+                <i class="fas fa-mobile-alt"></i>
+                Derwin的技术博客
             </div>
             <nav>
                 <button class="mobile-menu-btn">
@@ -580,8 +588,8 @@
                     <li><a href="#" class="active">首页</a></li>
                     <li><a href="#">关于我</a></li>
                     <li><a href="#">技术文章</a></li>
-                    <li><a href="#">项目作品</a></li>
-                    <li><a href="#">学习笔记</a></li>
+                    <li><a href="#">移动开发</a></li>
+                    <li><a href="#">智能座舱</a></li>
                     <li><a href="#">联系我</a></li>
                 </ul>
             </nav>
@@ -591,11 +599,11 @@
     <!-- 英雄区域 -->
     <section class="hero">
         <div class="container">
-            <h1>分享技术，记录成长</h1>
-            <p>前端开发工程师 | 技术博主 | UI设计爱好者 | 在这里分享我的技术心得、项目经验和学习笔记</p>
+            <h1>分享移动端开发经验</h1>
+            <p>资深移动端工程师 | 技术博主 | 专注于Android、Flutter及智能座舱应用开发</p>
             <div class="hero-btns">
-                <a href="#" class="btn">查看我的作品</a>
-                <a href="#" class="btn btn-outline">阅读最新文章</a>
+                <a href="#projects" class="btn">查看我的项目</a>
+                <a href="#contact" class="btn btn-outline">联系我</a>
             </div>
         </div>
     </section>
@@ -604,52 +612,52 @@
     <div class="container main-content">
         <!-- 文章列表 -->
         <div class="posts">
-            <h2 class="section-title">最新文章</h2>
+            <h2 class="section-title">最新技术文章</h2>
             
             <div class="post-card">
                 <div class="post-image">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Vue 3 新特性解析">
+                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Android开发">
                 </div>
                 <div class="post-content">
                     <div class="post-meta">
-                        <span><i class="far fa-calendar"></i> 2023-06-15</span>
-                        <span><i class="far fa-folder"></i> 前端框架</span>
-                        <span><i class="far fa-comments"></i> 24 评论</span>
-                    </div>
-                    <h3 class="post-title"><a href="#">深入解析 Vue 3 的 Composition API 与响应式原理</a></h3>
-                    <p class="post-excerpt">Vue 3 带来了许多令人兴奋的新特性，其中最引人注目的是 Composition API。在这篇文章中，我们将深入探讨 Composition API 的设计理念、使用方法以及它与 Options API 的区别...</p>
-                    <a href="#" class="read-more">继续阅读 <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <div class="post-card">
-                <div class="post-image">
-                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="CSS Grid 布局">
-                </div>
-                <div class="post-content">
-                    <div class="post-meta">
-                        <span><i class="far fa-calendar"></i> 2023-06-08</span>
-                        <span><i class="far fa-folder"></i> CSS技术</span>
+                        <span><i class="far fa-calendar"></i> 2023-07-20</span>
+                        <span><i class="far fa-folder"></i> Android开发</span>
                         <span><i class="far fa-comments"></i> 18 评论</span>
                     </div>
-                    <h3 class="post-title"><a href="#">现代 CSS 布局实战：Flexbox 与 Grid 的完美结合</a></h3>
-                    <p class="post-excerpt">在响应式设计成为标配的今天，Flexbox 和 Grid 布局已经成为前端开发者的必备技能。本文将介绍如何在实际项目中结合使用这两种布局技术，创建灵活且强大的响应式界面...</p>
+                    <h3 class="post-title"><a href="#">Android Jetpack Compose 实战：构建现代化UI</a></h3>
+                    <p class="post-excerpt">探索Jetpack Compose在大型应用中的应用，分享在实际项目中遇到的性能优化挑战以及解决方案，帮助开发者构建更流畅的用户界面...</p>
                     <a href="#" class="read-more">继续阅读 <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
             
             <div class="post-card">
                 <div class="post-image">
-                    <img src="https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="React Hooks">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Flutter开发">
                 </div>
                 <div class="post-content">
                     <div class="post-meta">
-                        <span><i class="far fa-calendar"></i> 2023-05-29</span>
-                        <span><i class="far fa-folder"></i> React</span>
+                        <span><i class="far fa-calendar"></i> 2023-07-12</span>
+                        <span><i class="far fa-folder"></i> Flutter开发</span>
+                        <span><i class="far fa-comments"></i> 24 评论</span>
+                    </div>
+                    <h3 class="post-title"><a href="#">Flutter与原生平台深度交互实践</a></h3>
+                    <p class="post-excerpt">详细解析Flutter与Android/iOS原生代码的通信机制，分享在实际项目中实现复杂功能集成的经验与技巧，解决混合开发中的常见问题...</p>
+                    <a href="#" class="read-more">继续阅读 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="post-card">
+                <div class="post-image">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="智能座舱">
+                </div>
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span><i class="far fa-calendar"></i> 2023-07-05</span>
+                        <span><i class="far fa-folder"></i> 智能座舱</span>
                         <span><i class="far fa-comments"></i> 32 评论</span>
                     </div>
-                    <h3 class="post-title"><a href="#">React Hooks 最佳实践与常见陷阱解析</a></h3>
-                    <p class="post-excerpt">Hooks 是 React 16.8 引入的一项革命性功能，它改变了我们编写 React 组件的方式。在这篇文章中，我将分享我在大型项目中使用 Hooks 的经验，以及如何避免常见的陷阱...</p>
+                    <h3 class="post-title"><a href="#">智能座舱应用开发：车载系统的性能优化</a></h3>
+                    <p class="post-excerpt">分享在智能座舱应用开发中的性能优化经验，包括内存管理、启动优化、多线程处理等关键技术，确保在资源受限的车载环境中提供流畅体验...</p>
                     <a href="#" class="read-more">继续阅读 <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
@@ -659,50 +667,50 @@
         <div class="sidebar">
             <!-- 关于我 -->
             <div class="sidebar-widget about-me">
-                <h3 class="widget-title">关于我</h3>
+                <h3 class="widget-title">关于Derwin</h3>
                 <div class="avatar">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="作者头像">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Derwin">
                 </div>
-                <p>前端开发工程师，热爱技术分享与创造。专注于现代Web技术、性能优化和用户体验设计。</p>
+                <p>资深移动端工程师，专注于Android、Flutter以及智能座舱应用开发。拥有10年移动开发经验，热爱技术分享与创新。</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="https://github.com/zhdh2008" target="_blank"><i class="fab fa-github"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-medium-m"></i></a>
                 </div>
             </div>
             
             <!-- 分类目录 -->
             <div class="sidebar-widget categories">
-                <h3 class="widget-title">分类目录</h3>
+                <h3 class="widget-title">技术分类</h3>
                 <ul>
                     <li>
-                        <a href="#">前端框架</a>
-                        <span>12</span>
+                        <a href="#">Android开发</a>
+                        <span>28</span>
                     </li>
                     <li>
-                        <a href="#">JavaScript</a>
-                        <span>8</span>
-                    </li>
-                    <li>
-                        <a href="#">CSS技术</a>
+                        <a href="#">Flutter开发</a>
                         <span>15</span>
                     </li>
                     <li>
-                        <a href="#">React</a>
-                        <span>10</span>
-                    </li>
-                    <li>
-                        <a href="#">Vue.js</a>
-                        <span>7</span>
+                        <a href="#">智能座舱</a>
+                        <span>9</span>
                     </li>
                     <li>
                         <a href="#">性能优化</a>
-                        <span>5</span>
+                        <span>12</span>
+                    </li>
+                    <li>
+                        <a href="#">架构设计</a>
+                        <span>7</span>
+                    </li>
+                    <li>
+                        <a href="#">Kotlin进阶</a>
+                        <span>10</span>
                     </li>
                     <li>
                         <a href="#">项目实战</a>
-                        <span>9</span>
+                        <span>18</span>
                     </li>
                 </ul>
             </div>
@@ -712,56 +720,56 @@
                 <h3 class="widget-title">热门文章</h3>
                 <div class="post">
                     <div class="post-image">
-                        <img src="https://images.unsplash.com/photo-1581276879432-15e50529f34b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="TypeScript">
+                        <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Android性能优化">
                     </div>
                     <div>
-                        <h4 class="post-title"><a href="#">TypeScript 高级类型使用指南</a></h4>
-                        <div class="post-date">2023-05-15</div>
+                        <h4 class="post-title"><a href="#">Android内存优化实战指南</a></h4>
+                        <div class="post-date">2023-06-18</div>
                     </div>
                 </div>
                 <div class="post">
                     <div class="post-image">
-                        <img src="https://images.unsplash.com/photo-1555066931-bf19f8fd1085?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Webpack">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Flutter">
                     </div>
                     <div>
-                        <h4 class="post-title"><a href="#">Webpack 5 配置优化实战</a></h4>
-                        <div class="post-date">2023-04-22</div>
+                        <h4 class="post-title"><a href="#">Flutter状态管理深度解析</a></h4>
+                        <div class="post-date">2023-05-22</div>
                     </div>
                 </div>
                 <div class="post">
                     <div class="post-image">
-                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="CSS">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="智能座舱">
                     </div>
                     <div>
-                        <h4 class="post-title"><a href="#">CSS Grid 布局完全指南</a></h4>
-                        <div class="post-date">2023-04-10</div>
+                        <h4 class="post-title"><a href="#">车载Android系统开发核心要点</a></h4>
+                        <div class="post-date">2023-04-30</div>
                     </div>
                 </div>
             </div>
             
             <!-- 标签云 -->
             <div class="sidebar-widget">
-                <h3 class="widget-title">标签云</h3>
+                <h3 class="widget-title">技术标签</h3>
                 <div class="tags">
-                    <a href="#" class="tag">JavaScript</a>
-                    <a href="#" class="tag">React</a>
-                    <a href="#" class="tag">Vue</a>
-                    <a href="#" class="tag">CSS3</a>
-                    <a href="#" class="tag">TypeScript</a>
-                    <a href="#" class="tag">Webpack</a>
+                    <a href="#" class="tag">Android</a>
+                    <a href="#" class="tag">Flutter</a>
+                    <a href="#" class="tag">Kotlin</a>
+                    <a href="#" class="tag">Dart</a>
+                    <a href="#" class="tag">Jetpack</a>
+                    <a href="#" class="tag">Compose</a>
                     <a href="#" class="tag">性能优化</a>
-                    <a href="#" class="tag">响应式设计</a>
-                    <a href="#" class="tag">Node.js</a>
-                    <a href="#" class="tag">前端工程化</a>
+                    <a href="#" class="tag">智能座舱</a>
+                    <a href="#" class="tag">车载系统</a>
+                    <a href="#" class="tag">架构设计</a>
                 </div>
             </div>
             
             <!-- 订阅 -->
             <div class="sidebar-widget newsletter">
-                <h3 class="widget-title">订阅博客</h3>
-                <p>获取最新技术文章和资源</p>
+                <h3 class="widget-title">订阅更新</h3>
+                <p>获取最新技术文章和移动开发资源</p>
                 <input type="email" placeholder="输入您的邮箱">
-                <a href="#" class="btn">订阅</a>
+                <a href="#" class="btn">立即订阅</a>
             </div>
         </div>
     </div>
@@ -772,12 +780,12 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>关于博客</h3>
-                    <p>星辰博客是一个专注于前端开发技术的个人博客，分享Web开发、UI设计、性能优化等方面的知识和经验。</p>
+                    <p>Derwin的技术博客专注于移动端开发技术，分享Android、Flutter、智能座舱应用开发等方面的知识和实战经验。</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="https://github.com/zhdh2008" target="_blank"><i class="fab fa-github"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-medium-m"></i></a>
                     </div>
                 </div>
                 
@@ -787,8 +795,8 @@
                         <li><a href="#">首页</a></li>
                         <li><a href="#">关于我</a></li>
                         <li><a href="#">技术文章</a></li>
-                        <li><a href="#">项目作品</a></li>
-                        <li><a href="#">学习笔记</a></li>
+                        <li><a href="#">移动开发</a></li>
+                        <li><a href="#">智能座舱</a></li>
                         <li><a href="#">联系我</a></li>
                     </ul>
                 </div>
@@ -796,27 +804,27 @@
                 <div class="footer-column">
                     <h3>技术分类</h3>
                     <ul>
-                        <li><a href="#">JavaScript</a></li>
-                        <li><a href="#">React</a></li>
-                        <li><a href="#">Vue.js</a></li>
-                        <li><a href="#">CSS/SASS</a></li>
-                        <li><a href="#">TypeScript</a></li>
-                        <li><a href="#">Node.js</a></li>
+                        <li><a href="#">Android开发</a></li>
+                        <li><a href="#">Flutter开发</a></li>
+                        <li><a href="#">智能座舱应用</a></li>
+                        <li><a href="#">性能优化</a></li>
+                        <li><a href="#">架构设计</a></li>
+                        <li><a href="#">Kotlin进阶</a></li>
                     </ul>
                 </div>
                 
-                <div class="footer-column">
+                <div class="footer-column" id="contact">
                     <h3>联系方式</h3>
                     <ul>
-                        <li><i class="fas fa-envelope"></i> contact@chenxingblog.com</li>
-                        <li><i class="fab fa-github"></i> github.com/chenxing</li>
-                        <li><i class="fas fa-map-marker-alt"></i> 北京市海淀区</li>
+                        <li><i class="fas fa-envelope"></i> zhdh2008@gmail.com</li>
+                        <li><i class="fab fa-github"></i> github.com/zhdh2008</li>
+                        <li><i class="fas fa-briefcase"></i> 资深移动端工程师</li>
                     </ul>
                 </div>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2023 星辰博客 | 设计与开发 by 陈星 | 保留所有权利</p>
+                <p>&copy; 2023 Derwin的技术博客 | 保留所有权利</p>
             </div>
         </div>
     </footer>
@@ -838,6 +846,11 @@
                         top: target.offsetTop - 80,
                         behavior: 'smooth'
                     });
+                    
+                    // 移动端点击后关闭菜单
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('nav ul').classList.remove('show');
+                    }
                 }
             });
         });
