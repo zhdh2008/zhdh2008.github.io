@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社交媒体封面图片生成器</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            background: linear-gradient(90deg, #3498db, #9b59b6, #e74c3c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 900;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .app-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .control-panel {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .preview-container {
+            flex: 2;
+            min-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .panel-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            font-weight: 700;
+        }
+        
+        .platform-selector {
+            margin-bottom: 25px;
+        }
+        
+        .platform-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .platform-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 15px;
+            background: #ecf0f1;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .platform-btn:hover {
+            background: #d6dbdf;
+            transform: translateY(-2px);
+        }
+        
+        .platform-btn.active {
+            background: #3498db;
+            color: white;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+        }
+        
+        .text-editor {
+            margin-bottom: 25px;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .text-input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .color-picker {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .color-group {
+            flex: 1;
+        }
+        
+        .color-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .color-input {
+            width: 100%;
+            height: 40px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .slider-group {
+            margin-bottom: 15px;
+        }
+        
+        .slider-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #ecf0f1;
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .slider-value {
+            width: 50px;
+            text-align: center;
+            font-weight: 500;
+            background: #f8f9fa;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        
+        .font-selector {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .position-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .position-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .pos-btn {
+            flex: 1;
+            padding: 10px;
+            background: #ecf0f1;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .pos-btn:hover {
+            background: #d6dbdf;
+        }
+        
+        .pos-btn.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .template-manager {
+            margin: 30px 0 20px;
+        }
+        
+        .template-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .template-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .save-btn {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .save-btn:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .load-btn {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .load-btn:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+        
+        .export-btn {
+            background: #3498db;
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .export-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+        }
+        
+        .preview-area {
+            width: 100%;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+        
+        .cover-container {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cover-image {
+            display: block;
+        }
+        
+        .cover-text {
+            position: absolute;
+            max-width: 80%;
+            text-align: center;
+            cursor: move;
+            user-select: none;
+            padding: 20px;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .size-label {
+            margin-top: 15px;
+            font-weight: 500;
+            color: #7f8c8d;
+            text-align: center;
+            background: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .template-list {
+            margin-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+        
+        .template-item {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .template-item:hover {
+            background: #e9ecef;
+        }
+        
+        .template-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .template-name {
+            flex: 1;
+        }
+        
+        .delete-template {
+            color: #e74c3c;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .delete-template:hover {
+            background: #fadbd8;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding: 20px;
+        }
+        
+        @media (max-width: 900px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .preview-container {
+                min-width: 100%;
+            }
+        }
+        
+        /* 平台图标 */
+        .icon {
+            font-size: 1.2rem;
+        }
+        
+        /* 文字阴影控制 */
+        .shadow-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .shadow-group {
+            flex: 1;
+        }
+        
+        .shadow-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        /* 旋转控制 */
+        .rotate-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .rotate-value {
+            width: 60px;
+            text-align: center;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>社交媒体封面图片生成器</h1>
+            <p class="subtitle">为头条、小红书、公众号、抖音、视频号创建专业封面图片，自定义文字样式，保存模板并导出高质量图片</p>
+        </header>
+        
+        <div class="app-container">
+            <!-- 左侧控制面板 -->
+            <div class="control-panel">
+                <h2 class="panel-title">设计控制面板</h2>
+                
+                <!-- 平台选择 -->
+                <div class="platform-selector">
+                    <label>选择平台</label>
+                    <div class="platform-buttons">
+                        <button class="platform-btn active" data-platform="headline">
+                            <span class="icon">📰</span> 头条
+                        </button>
+                        <button class="platform-btn" data-platform="redbook">
+                            <span class="icon">📕</span> 小红书
+                        </button>
+                        <button class="platform-btn" data-platform="wechat">
+                            <span class="icon">📱</span> 公众号
+                        </button>
+                        <button class="platform-btn" data-platform="douyin">
+                            <span class="icon">🎵</span> 抖音
+                        </button>
+                        <button class="platform-btn" data-platform="video">
+                            <span class="icon">🎬</span> 视频号
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 文字编辑 -->
+                <div class="text-editor">
+                    <label>编辑文字内容</label>
+                    <textarea class="text-input" id="text-content" placeholder="输入封面文字...">打造吸睛封面图</textarea>
+                    
+                    <div class="color-picker">
+                        <div class="color-group">
+                            <label>文字颜色</label>
+                            <input type="color" class="color-input" id="text-color" value="#ffffff">
+                        </div>
+                        <div class="color-group">
+                            <label>背景颜色</label>
+                            <input type="color" class="color-input" id="bg-color" value="#3498db">
+                        </div>
+                    </div>
+                    
+                    <div class="slider-group">
+                        <label>字体大小</label>
+                        <div class="slider-container">
+                            <input type="range" min="20" max="100" value="42" class="slider" id="font-size">
+                            <span class="slider-value" id="font-size-value">42px</span>
+                        </div>
+                    </div>
+                    
+                    <div class="slider-group">
+                        <label>文字透明度</label>
+                        <div class="slider-container">
+                            <input type="range" min="0" max="100" value="100" class="slider" id="text-opacity">
+                            <span class="slider-value" id="text-opacity-value">100%</span>
+                        </div>
+                    </div>
+                    
+                    <label>选择字体</label>
+                    <select class="font-selector" id="font-family">
+                        <option value="'Noto Sans SC', sans-serif">思源黑体</option>
+                        <option value="'Ma Shan Zheng', cursive">马善政书法体</option>
+                        <option value="'ZCOOL XiaoWei', serif">站酷小薇体</option>
+                        <option value="'ZCOOL KuaiLe', sans-serif">站酷快乐体</option>
+                        <option value="'Microsoft YaHei', sans-serif">微软雅黑</option>
+                        <option value="'KaiTi', serif">楷体</option>
+                        <option value="'Arial', sans-serif">Arial</option>
+                    </select>
+                    
+                    <label>文字位置</label>
+                    <div class="position-controls">
+                        <div class="position-row">
+                            <label>垂直位置</label>
+                        </div>
+                        <div class="position-row">
+                            <button class="pos-btn" data-position="top">顶部</button>
+                            <button class="pos-btn" data-position="middle">居中</button>
+                            <button class="pos-btn" data-position="bottom">底部</button>
+                        </div>
+                        
+                        <div class="position-row" style="margin-top: 15px;">
+                            <label>水平位置</label>
+                        </div>
+                        <div class="position-row">
+                            <button class="pos-btn" data-hposition="left">居左</button>
+                            <button class="pos-btn" data-hposition="center">居中</button>
+                            <button class="pos-btn" data-hposition="right">居右</button>
+                        </div>
+                    </div>
+                    
+                    <div class="shadow-controls">
+                        <div class="shadow-group">
+                            <label>文字阴影颜色</label>
+                            <input type="color" class="color-input" id="text-shadow-color" value="#000000">
+                        </div>
+                        <div class="shadow-group">
+                            <label>阴影大小</label>
+                            <input type="range" min="0" max="10" value="0" class="slider" id="text-shadow-size">
+                        </div>
+                    </div>
+                    
+                    <div class="rotate-control">
+                        <label>文字旋转角度</label>
+                        <input type="range" min="-45" max="45" value="0" class="slider" id="text-rotate">
+                        <span class="rotate-value" id="text-rotate-value">0°</span>
+                    </div>
+                </div>
+                
+                <!-- 模板管理 -->
+                <div class="template-manager">
+                    <label>模板管理</label>
+                    <div class="template-buttons">
+                        <button class="template-btn save-btn" id="save-template">
+                            <i class="icon">💾</i> 保存当前模板
+                        </button>
+                        <button class="template-btn load-btn" id="load-template">
+                            <i class="icon">📂</i> 加载模板
+                        </button>
+                    </div>
+                    
+                    <div class="template-list" id="template-list">
+                        <!-- 模板将通过JS动态添加 -->
+                    </div>
+                </div>
+                
+                <button class="export-btn" id="export-btn">
+                    <i class="icon">📸</i> 导出高清图片
+                </button>
+            </div>
+            
+            <!-- 右侧预览区域 -->
+            <div class="preview-container">
+                <h2 class="panel-title">实时预览</h2>
+                
+                <div class="preview-area">
+                    <div class="cover-container" id="cover-container">
+                        <div class="cover-text" id="cover-text">打造吸睛封面图</div>
+                    </div>
+                </div>
+                
+                <div class="size-label">
+                    当前尺寸: <span id="size-info">1242 × 698 像素 (头条)</span>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 社交媒体封面图片生成器 | 所有设计均可自定义并导出使用</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 平台尺寸映射
+            const platformSizes = {
+                'headline': { width: 1242, height: 698, name: '头条' },
+                'redbook': { width: 1242, height: 1660, name: '小红书' },
+                'wechat': { width: 900, height: 383, name: '公众号' },
+                'douyin': { width: 1125, height: 633, name: '抖音' },
+                'video': { width: 1080, height: 608, name: '视频号' }
+            };
+            
+            // 当前平台
+            let currentPlatform = 'headline';
+            
+            // 当前样式配置
+            let currentStyle = {
+                text: '打造吸睛封面图',
+                textColor: '#ffffff',
+                bgColor: '#3498db',
+                fontSize: 42,
+                fontFamily: "'Noto Sans SC', sans-serif",
+                position: 'middle',
+                hPosition: 'center',
+                opacity: 1,
+                shadowColor: '#000000',
+                shadowSize: 0,
+                rotate: 0
+            };
+            
+            // 模板数据
+            let templates = [];
+            
+            // DOM元素
+            const platformButtons = document.querySelectorAll('.platform-btn');
+            const textContent = document.getElementById('text-content');
+            const textColor = document.getElementById('text-color');
+            const bgColor = document.getElementById('bg-color');
+            const fontSizeSlider = document.getElementById('font-size');
+            const fontSizeValue = document.getElementById('font-size-value');
+            const textOpacitySlider = document.getElementById('text-opacity');
+            const textOpacityValue = document.getElementById('text-opacity-value');
+            const fontFamily = document.getElementById('font-family');
+            const positionButtons = document.querySelectorAll('.pos-btn[data-position]');
+            const hPositionButtons = document.querySelectorAll('.pos-btn[data-hposition]');
+            const coverContainer = document.getElementById('cover-container');
+            const coverText = document.getElementById('cover-text');
+            const sizeInfo = document.getElementById('size-info');
+            const saveTemplateBtn = document.getElementById('save-template');
+            const loadTemplateBtn = document.getElementById('load-template');
+            const templateList = document.getElementById('template-list');
+            const exportBtn = document.getElementById('export-btn');
+            const textShadowColor = document.getElementById('text-shadow-color');
+            const textShadowSize = document.getElementById('text-shadow-size');
+            const textRotate = document.getElementById('text-rotate');
+            const textRotateValue = document.getElementById('text-rotate-value');
+            
+            // 初始化
+            init();
+            
+            function init() {
+                // 从本地存储加载模板
+                loadTemplatesFromStorage();
+                
+                // 设置初始平台
+                setPlatform('headline');
+                
+                // 设置初始样式
+                updatePreview();
+                
+                // 事件监听
+                setupEventListeners();
+            }
+            
+            function setupEventListeners() {
+                // 平台选择
+                platformButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        platformButtons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        setPlatform(btn.dataset.platform);
+                    });
+                });
+                
+                // 文字内容
+                textContent.addEventListener('input', () => {
+                    currentStyle.text = textContent.value;
+                    updatePreview();
+                });
+                
+                // 文字颜色
+                textColor.addEventListener('input', () => {
+                    currentStyle.textColor = textColor.value;
+                    updatePreview();
+                });
+                
+                // 背景颜色
+                bgColor.addEventListener('input', () => {
+                    currentStyle.bgColor = bgColor.value;
+                    updatePreview();
+                });
+                
+                // 字体大小
+                fontSizeSlider.addEventListener('input', () => {
+                    currentStyle.fontSize = parseInt(fontSizeSlider.value);
+                    fontSizeValue.textContent = `${currentStyle.fontSize}px`;
+                    updatePreview();
+                });
+                
+                // 文字透明度
+                textOpacitySlider.addEventListener('input', () => {
+                    currentStyle.opacity = parseInt(textOpacitySlider.value) / 100;
+                    textOpacityValue.textContent = `${parseInt(textOpacitySlider.value)}%`;
+                    updatePreview();
+                });
+                
+                // 字体选择
+                fontFamily.addEventListener('change', () => {
+                    currentStyle.fontFamily = fontFamily.value;
+                    updatePreview();
+                });
+                
+                // 垂直位置选择
+                positionButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        positionButtons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        currentStyle.position = btn.dataset.position;
+                        updatePreview();
+                    });
+                });
+                
+                // 水平位置选择
+                hPositionButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        hPositionButtons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        currentStyle.hPosition = btn.dataset.hposition;
+                        updatePreview();
+                    });
+                });
+                
+                // 文字阴影颜色
+                textShadowColor.addEventListener('input', () => {
+                    currentStyle.shadowColor = textShadowColor.value;
+                    updatePreview();
+                });
+                
+                // 文字阴影大小
+                textShadowSize.addEventListener('input', () => {
+                    currentStyle.shadowSize = parseInt(textShadowSize.value);
+                    updatePreview();
+                });
+                
+                // 文字旋转
+                textRotate.addEventListener('input', () => {
+                    currentStyle.rotate = parseInt(textRotate.value);
+                    textRotateValue.textContent = `${currentStyle.rotate}°`;
+                    updatePreview();
+                });
+                
+                // 保存模板
+                saveTemplateBtn.addEventListener('click', saveTemplate);
+                
+                // 导出图片
+                exportBtn.addEventListener('click', exportImage);
+                
+                // 加载模板
+                loadTemplateBtn.addEventListener('click', () => {
+                    templateList.style.display = templateList.style.display === 'block' ? 'none' : 'block';
+                });
+                
+                // 拖动文本
+                setupTextDragging();
+            }
+            
+            function setPlatform(platform) {
+                currentPlatform = platform;
+                const size = platformSizes[platform];
+                
+                // 更新容器尺寸
+                const aspectRatio = size.width / size.height;
+                const maxWidth = 600;
+                const calculatedHeight = maxWidth / aspectRatio;
+                
+                coverContainer.style.width = `${maxWidth}px`;
+                coverContainer.style.height = `${calculatedHeight}px`;
+                coverContainer.style.backgroundColor = currentStyle.bgColor;
+                
+                // 更新尺寸信息
+                sizeInfo.textContent = `${size.width} × ${size.height} 像素 (${size.name})`;
+                
+                updatePreview();
+            }
+            
+            function updatePreview() {
+                // 更新文本
+                coverText.textContent = currentStyle.text;
+                
+                // 更新文本样式
+                coverText.style.color = currentStyle.textColor;
+                coverText.style.fontSize = `${currentStyle.fontSize}px`;
+                coverText.style.fontFamily = currentStyle.fontFamily;
+                coverText.style.opacity = currentStyle.opacity;
+                
+                // 更新文字阴影
+                if (currentStyle.shadowSize > 0) {
+                    coverText.style.textShadow = `${currentStyle.shadowSize}px ${currentStyle.shadowSize}px ${currentStyle.shadowSize * 2}px ${currentStyle.shadowColor}`;
+                } else {
+                    coverText.style.textShadow = 'none';
+                }
+                
+                // 更新文字旋转
+                coverText.style.transform = `rotate(${currentStyle.rotate}deg)`;
+                
+                // 更新背景颜色
+                coverContainer.style.backgroundColor = currentStyle.bgColor;
+                
+                // 更新位置
+                updateTextPosition();
+            }
+            
+            function updateTextPosition() {
+                const containerWidth = coverContainer.clientWidth;
+                const containerHeight = coverContainer.clientHeight;
+                const textWidth = coverText.clientWidth;
+                const textHeight = coverText.clientHeight;
+                
+                // 设置最大宽度确保文字不超出容器
+                coverText.style.maxWidth = `${containerWidth * 0.9}px`;
+                
+                // 重置位置
+                coverText.style.left = '';
+                coverText.style.right = '';
+                coverText.style.top = '';
+                coverText.style.bottom = '';
+                coverText.style.transform = '';
+                
+                // 垂直位置
+                switch (currentStyle.position) {
+                    case 'top':
+                        coverText.style.top = '10%';
+                        break;
+                    case 'middle':
+                        coverText.style.top = '50%';
+                        break;
+                    case 'bottom':
+                        coverText.style.bottom = '10%';
+                        break;
+                }
+                
+                // 水平位置
+                switch (currentStyle.hPosition) {
+                    case 'left':
+                        coverText.style.left = '10%';
+                        break;
+                    case 'center':
+                        coverText.style.left = '50%';
+                        break;
+                    case 'right':
+                        coverText.style.right = '10%';
+                        break;
+                }
+                
+                // 应用变换
+                let transform = `rotate(${currentStyle.rotate}deg)`;
+                
+                if (currentStyle.position === 'middle') {
+                    transform += ' translate(-50%, -50%)';
+                } else if (currentStyle.hPosition === 'center') {
+                    transform += ' translateX(-50%)';
+                } else if (currentStyle.position === 'middle' && currentStyle.hPosition !== 'center') {
+                    transform += ' translateY(-50%)';
+                }
+                
+                coverText.style.transform = transform;
+            }
+            
+            function setupTextDragging() {
+                let isDragging = false;
+                let offsetX, offsetY;
+                
+                coverText.addEventListener('mousedown', startDrag);
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', stopDrag);
+                
+                function startDrag(e) {
+                    isDragging = true;
+                    
+                    // 计算初始偏移
+                    const rect = coverText.getBoundingClientRect();
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                    
+                    // 添加拖动样式
+                    coverText.style.cursor = 'grabbing';
+                    coverText.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+                }
+                
+                function drag(e) {
+                    if (!isDragging) return;
+                    
+                    // 计算新位置
+                    const containerRect = coverContainer.getBoundingClientRect();
+                    let x = e.clientX - containerRect.left - offsetX;
+                    let y = e.clientY - containerRect.top - offsetY;
+                    
+                    // 边界检查 - 确保文字不超出容器
+                    const textRect = coverText.getBoundingClientRect();
+                    const maxX = containerRect.width - textRect.width;
+                    const maxY = containerRect.height - textRect.height;
+                    
+                    x = Math.max(10, Math.min(x, maxX - 10));
+                    y = Math.max(10, Math.min(y, maxY - 10));
+                    
+                    // 应用新位置
+                    coverText.style.left = `${x}px`;
+                    coverText.style.top = `${y}px`;
+                    coverText.style.transform = `rotate(${currentStyle.rotate}deg)`;
+                    
+                    // 更新位置状态
+                    currentStyle.position = 'custom';
+                    currentStyle.hPosition = 'custom';
+                    
+                    // 取消预设位置按钮的选中状态
+                    positionButtons.forEach(btn => btn.classList.remove('active'));
+                    hPositionButtons.forEach(btn => btn.classList.remove('active'));
+                }
+                
+                function stopDrag() {
+                    if (!isDragging) return;
+                    
+                    isDragging = false;
+                    coverText.style.cursor = 'grab';
+                    coverText.style.boxShadow = 'none';
+                }
+            }
+            
+            function saveTemplate() {
+                // 获取模板名称
+                const templateName = prompt('请输入模板名称:', `模板 ${templates.length + 1}`);
+                if (!templateName) return;
+                
+                // 创建模板对象
+                const template = {
+                    name: templateName,
+                    style: JSON.parse(JSON.stringify(currentStyle))
+                };
+                
+                // 添加到模板列表
+                templates.push(template);
+                
+                // 保存到本地存储
+                saveTemplatesToStorage();
+                
+                // 更新模板列表显示
+                renderTemplateList();
+                
+                alert(`模板 "${templateName}" 保存成功！`);
+            }
+            
+            function loadTemplate(templateName) {
+                // 查找模板
+                const template = templates.find(t => t.name === templateName);
+                if (!template) return;
+                
+                // 应用模板样式
+                currentStyle = JSON.parse(JSON.stringify(template.style));
+                
+                // 更新UI控件
+                applyCurrentStyle();
+                
+                // 更新预览
+                updatePreview();
+                
+                // 隐藏模板列表
+                templateList.style.display = 'none';
+                
+                alert(`模板 "${templateName}" 已加载！`);
+            }
+            
+            function deleteTemplate(templateName, e) {
+                e.stopPropagation();
+                
+                if (confirm(`确定要删除模板 "${templateName}" 吗？`)) {
+                    // 从模板数组中移除
+                    templates = templates.filter(t => t.name !== templateName);
+                    
+                    // 保存到本地存储
+                    saveTemplatesToStorage();
+                    
+                    // 更新模板列表显示
+                    renderTemplateList();
+                }
+            }
+            
+            function applyCurrentStyle() {
+                // 更新UI控件以匹配当前样式
+                textContent.value = currentStyle.text;
+                textColor.value = currentStyle.textColor;
+                bgColor.value = currentStyle.bgColor;
+                fontSizeSlider.value = currentStyle.fontSize;
+                fontSizeValue.textContent = `${currentStyle.fontSize}px`;
+                textOpacitySlider.value = currentStyle.opacity * 100;
+                textOpacityValue.textContent = `${currentStyle.opacity * 100}%`;
+                fontFamily.value = currentStyle.fontFamily;
+                textShadowColor.value = currentStyle.shadowColor;
+                textShadowSize.value = currentStyle.shadowSize;
+                textRotate.value = currentStyle.rotate;
+                textRotateValue.textContent = `${currentStyle.rotate}°`;
+                
+                // 更新位置按钮状态
+                positionButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.position === currentStyle.position) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                hPositionButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.hposition === currentStyle.hPosition) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+            
+            function renderTemplateList() {
+                templateList.innerHTML = '';
+                
+                if (templates.length === 0) {
+                    templateList.innerHTML = '<div class="template-item">暂无模板，请先保存模板</div>';
+                    return;
+                }
+                
+                templates.forEach(template => {
+                    const templateItem = document.createElement('div');
+                    templateItem.className = 'template-item';
+                    templateItem.innerHTML = `
+                        <div class="template-name">${template.name}</div>
+                        <div class="delete-template" title="删除模板">🗑️</div>
+                    `;
+                    
+                    templateItem.addEventListener('click', () => {
+                        loadTemplate(template.name);
+                    });
+                    
+                    templateItem.querySelector('.delete-template').addEventListener('click', (e) => {
+                        deleteTemplate(template.name, e);
+                    });
+                    
+                    templateList.appendChild(templateItem);
+                });
+            }
+            
+            function saveTemplatesToStorage() {
+                localStorage.setItem('coverTemplates', JSON.stringify(templates));
+            }
+            
+            function loadTemplatesFromStorage() {
+                const savedTemplates = localStorage.getItem('coverTemplates');
+                if (savedTemplates) {
+                    templates = JSON.parse(savedTemplates);
+                    renderTemplateList();
+                } else {
+                    templates = [
+                        { name: "默认模板", style: JSON.parse(JSON.stringify(currentStyle)) },
+                        { 
+                            name: "商务风格", 
+                            style: {
+                                text: '专业 · 高效 · 创新',
+                                textColor: '#ecf0f1',
+                                bgColor: '#2c3e50',
+                                fontSize: 48,
+                                fontFamily: "'Microsoft YaHei', sans-serif",
+                                position: 'middle',
+                                hPosition: 'center',
+                                opacity: 1,
+                                shadowColor: '#000000',
+                                shadowSize: 0,
+                                rotate: 0
+                            } 
+                        },
+                        { 
+                            name: "简约风格", 
+                            style: {
+                                text: '简单生活 · 纯粹设计',
+                                textColor: '#e74c3c',
+                                bgColor: '#ffffff',
+                                fontSize: 40,
+                                fontFamily: "'Arial', sans-serif",
+                                position: 'middle',
+                                hPosition: 'center',
+                                opacity: 1,
+                                shadowColor: '#000000',
+                                shadowSize: 0,
+                                rotate: 0
+                            } 
+                        }
+                    ];
+                    renderTemplateList();
+                }
+            }
+            
+            function exportImage() {
+                // 使用html2canvas导出图片
+                const container = coverContainer;
+                const originalWidth = container.style.width;
+                const originalHeight = container.style.height;
+                
+                // 获取平台实际尺寸
+                const size = platformSizes[currentPlatform];
+                
+                // 临时放大以提高分辨率
+                container.style.width = `${size.width}px`;
+                container.style.height = `${size.height}px`;
+                coverText.style.fontSize = `${currentStyle.fontSize * (size.width / 600)}px`;
+                
+                html2canvas(container, {
+                    scale: 2,
+                    backgroundColor: currentStyle.bgColor,
+                    useCORS: true
+                }).then(canvas => {
+                    // 恢复原始尺寸
+                    container.style.width = originalWidth;
+                    container.style.height = originalHeight;
+                    coverText.style.fontSize = `${currentStyle.fontSize}px`;
+                    
+                    // 创建下载链接
+                    const link = document.createElement('a');
+                    link.download = `cover-${currentPlatform}-${Date.now()}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
